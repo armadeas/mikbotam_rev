@@ -1,6 +1,8 @@
 # mikbotam_rev
  
-Mikbotam untuk Telegram Bot tanpa Web User Interface =
+Mikbotam untuk Telegram Bot tanpa Web User Interface 
+
+sumber source code dari https://labkom.co.id/mikrotik/cara-install-mikbotam-untuk-monitoring-mikrotik-dengan-bot-telegram-php-webhook
 
 Mikbotam ini sudah dilakukan penyesuaian agar dapat berjalan pada ROS 6.47
 api php router os juga di update ke 1.6
