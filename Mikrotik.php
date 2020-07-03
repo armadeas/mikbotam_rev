@@ -105,7 +105,7 @@ $bot->cmd('/traffic|/Traffic|traffic|!Traffic', function () {
 		$getinterface = $API->comm("/interface/print");
 		$num = count($getinterface);
 		for ($i = 0;$i < $num;$i++) {
-			$interface = $getinterface[$i]['name'];
+			$interface = format_text_tele($getinterface[$i]['name']);
 			$getinterfacetraffic = $API->comm("/interface/monitor-traffic", array("interface" => "$interface", "once" => "",));
 			$tx = formatBites($getinterfacetraffic[0]['tx-bits-per-second'], 1);
 			$rx = formatBites($getinterfacetraffic[0]['rx-bits-per-second'], 1);
@@ -113,15 +113,25 @@ $bot->cmd('/traffic|/Traffic|traffic|!Traffic', function () {
 			$Traffic.= "====================\n";
 			$Traffic.= "TX: $tx / 100 Mbps \n";
 			$Traffic.= "RX: $rx / 100 Mbps \n";
-			$Traffic.= "====================\n";
+			$Traffic.= "====================\n";			
+
 		}
-	}
-	$arr2 = str_split($Traffic, 4000);
-	$amount_gen = count($arr2);
-	for ($i = 0;$i < $amount_gen;$i++) {
-		$texta = $arr2[$i];
-		$options = ['parse_mode' => 'html'];
-	Bot::sendMessage($arr2[$i], $options);
+		$options = [
+			'chat_id' => $chatid,
+			'message_id' => (int) $message['message']['message_id'],
+			'text' => format_text_tele($Traffic),
+			'reply_markup' => json_encode([
+				'inline_keyboard' => [
+					[
+					['text' => 'Reload','callback_data' => 'traffic'],
+					],[
+							['text' => 'Close','callback_data' => 'Close'],	['text' => 'Back','callback_data' => 'back'],
+					]]]),
+			'parse_mode' => 'html'
+
+		];
+
+		return Bot::sendMessage($Traffic,$options);
 	}
 });
 $bot->cmd('/dhcp|/Dhcp|!dhcp|!Dhcp', function ($dhcp) {
@@ -1150,7 +1160,7 @@ $bot->cmd('/ppp|/PPP|/Ppp|!PPP', function ($active) {
 			
 			$nomor = 1;
 			foreach ($data as $datas) {
-				$text.= "<code>Name     : ".$datas['name']."</code>\n";
+				$text.= "<code>Name     : ".format_text_tele($datas['name'])."</code>\n";
 				$text.= "<code>Service  : ".$datas['service']."</code>\n";
 				$text.= "<code>Caller   : ".$datas['caller-id']."</code>\n";
 				$text.= "<code>Password : ".$datas['password']."</code>\n";
@@ -1680,6 +1690,7 @@ $bot->cmd('!Menu|/Menu', function () {
 				],[
 					
 					['text' => 'System','callback_data' => 'system'],
+					['text' => 'Help','callback_data' => '/help'],
 					
 					]
 			]]),
