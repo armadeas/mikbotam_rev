@@ -26,13 +26,11 @@ if (!$API->connect($mikrotik_ip, $mikrotik_username, $mikrotik_password, $mikrot
 	// $texta = "👨‍💻 Mikrotik Linken's Sphere Offline\nSegera Periksa Jaringan";
 	// Bot::sendMessage($texta);
 
-	$telegrambot='1134655529:AAFa_Czx2IK4rZQTbvj-34oJWBlT7UrxlBo';
-	$telegramchatid=-429836854;
 	$msg = "👨‍💻 Mikrotik Linken's Sphere Offline\nSegera Periksa Jaringan";
 
 	// $url="https://api.telegram.org/bot1134655529:AAFa_Czx2IK4rZQTbvj-34oJWBlT7UrxlBo/sendmessage\?chat_id=-429836854&text=Mikrotik Linken's Sphere Offline\nSegera Periksa Jaringan \E2\9D\8C ";
-	 $url='https://api.telegram.org/bot'.$telegrambot.'/sendMessage';
-	 $data=array('chat_id'=>$telegramchatid,'text'=>$msg);
+	 $url='https://api.telegram.org/bot'.$datasa['token'].'/sendMessage';
+	 $data=array('chat_id'=>$datasa['chat_id'],'text'=>$msg);
 
 	$options=array('http'=>array('method'=>'POST','header'=>"Content-Type:application/x-www-form-urlencoded\r\n",'content'=>http_build_query($data),),);
     $context=stream_context_create($options);
